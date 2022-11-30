@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Task4_ReadingList.DataAccess\Task4_ReadingList.DataAccess.csproj" />
+    <ProjectReference Include="..\Task4_ReadingList.Service\Task4_ReadingList.Service.csproj" />
+  </ItemGroup>
+
+</Project>
