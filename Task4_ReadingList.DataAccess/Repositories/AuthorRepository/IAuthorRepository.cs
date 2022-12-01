@@ -9,6 +9,7 @@ namespace Task4_ReadingList.DataAccess.Repositories.AuthorRepository
 {
     public interface IAuthorRepository
     {
+        public void CreateAuthor(Author author);
     }
 }
 

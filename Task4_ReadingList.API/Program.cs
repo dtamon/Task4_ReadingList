@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Task4_ReadingList.DataAccess.Context;
 using Task4_ReadingList.DataAccess.Repositories.BookRepository;
+using Task4_ReadingList.Service.Services.BookService;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,13 +12,13 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddDbContext<ReadingListDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("connection")));
-
+builder.Services.AddDbContext<ReadingListDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("connectionString")));
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 //Repositories
 builder.Services.AddScoped<IBookRepository, BookRepository>();
 
 //Services
-//builder.Services.AddScoped<IBookService, BookService>();
+builder.Services.AddScoped<IBookService, BookService>();
 
 //Validators
 

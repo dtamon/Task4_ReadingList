@@ -6,12 +6,9 @@ using System.Threading.Tasks;
 
 namespace Task4_ReadingList.Service.Dto
 {
-    public class BookDto
+    public class AuthorDto
     {
         public int Id { get; set; }
-        public string Name { get; set; }
-        public bool IsRead { get; set; }
-        public int AuthorId { get; set; }
-        public string AuthorName { get; set; }
+        public string FullName { get; set; }
     }
 }

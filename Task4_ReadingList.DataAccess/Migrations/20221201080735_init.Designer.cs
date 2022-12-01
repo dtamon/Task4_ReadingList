@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Task4_ReadingList.DataAccess.Context;
 
@@ -10,9 +11,11 @@ using Task4_ReadingList.DataAccess.Context;
 namespace Task4ReadingList.DataAccess.Migrations
 {
     [DbContext(typeof(ReadingListDbContext))]
-    partial class ReadingListDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221201080735_init")]
+    partial class init
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -52,9 +55,6 @@ namespace Task4ReadingList.DataAccess.Migrations
 
                     b.Property<int>("AuthorId")
                         .HasColumnType("int");
-
-                    b.Property<bool>("IsRead")
-                        .HasColumnType("bit");
 
                     b.Property<string>("Name")
                         .IsRequired()

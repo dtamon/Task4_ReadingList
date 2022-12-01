@@ -6,15 +6,18 @@ using System.Text;
 using System.Threading.Tasks;
 using Task4_ReadingList.Service.Dto;
 using Task4_ReadingList.DataAccess.Repositories;
+using Task4_ReadingList.DataAccess.Repositories.BookRepository;
 
 namespace Task4_ReadingList.Service.Services.BookService
 {
     public class BookService : IBookService
     {
-        private readonly IMapper mapper;
-        public BookService(IMapper mapper)
+        private readonly IMapper _mapper;
+        private readonly IBookRepository _bookRepository;
+        public BookService(IMapper mapper, IBookRepository bookRepository)
         {
-            this.mapper = mapper;
+            _mapper = mapper;
+            _bookRepository = bookRepository;
         }
         public void CreateBook(BookDto book)
         {
@@ -28,12 +31,12 @@ namespace Task4_ReadingList.Service.Services.BookService
 
         public List<BookDto> GetAllBooks()
         {
-            throw new NotImplementedException();
+            return _mapper.Map<List<BookDto>>(_bookRepository.GetAllBooks());
         }
 
         public BookDto GetBookById(int id)
         {
-            throw new NotImplementedException();
+            return _mapper.Map<BookDto>(_bookRepository.GetBookById(id));
         }
 
         public void UpdateBook(BookDto book)

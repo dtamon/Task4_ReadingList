@@ -11,36 +11,39 @@ namespace Task4_ReadingList.DataAccess.Repositories.BookRepository
 {
     public class BookRepository : IBookRepository
     {
-        private readonly ReadingListDbContext context;
+        private readonly ReadingListDbContext _context;
 
         public BookRepository(ReadingListDbContext context)
         {
-            this.context = context;
+            _context = context;
         }
 
         public void AddBook(Book book)
         {
-            context.Books.Add(book);
+            _context.Books.Add(book);
+            _context.SaveChanges();
         }
 
         public void DeleteBook(Book book)
         {
-            context.Books.Remove(book);
+            _context.Books.Remove(book);
+            _context.SaveChanges();
         }
 
         public List<Book> GetAllBooks()
         {
-            return context.Books.Include(x => x.Authors).ToList();
+            return _context.Books.Include(x => x.Author).ToList();
         }
 
         public Book GetBookById(int id)
         {
-            return context.Books.First(x => x.Id == id);
+            return _context.Books.Include(x => x.Author).First(x => x.Id == id);
         }
 
         public void UpdateBook(Book book)
         {
-            context.Books.Update(book);
+            _context.Books.Update(book);
+            _context.SaveChanges();
         }
     }
 }

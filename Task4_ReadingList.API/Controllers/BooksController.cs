@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Task4_ReadingList.DataAccess.Context;
 using Task4_ReadingList.DataAccess.Entities;
+using Task4_ReadingList.Service.Dto;
+using Task4_ReadingList.Service.Services.BookService;
 
 namespace Task4_ReadingList.API.Controllers
 {
@@ -15,35 +17,29 @@ namespace Task4_ReadingList.API.Controllers
     public class BooksController : ControllerBase
     {
         private readonly ReadingListDbContext _context;
+        private readonly IBookService _bookService;
 
-        public BooksController(ReadingListDbContext context)
+        public BooksController(ReadingListDbContext context, IBookService bookService)
         {
             _context = context;
+            _bookService = bookService;
         }
 
         // GET: api/Books
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Book>>> GetBooks()
+        public ActionResult<IEnumerable<BookDto>> GetBooks()
         {
-            return await _context.Books.ToListAsync();
+            return _bookService.GetAllBooks();
         }
 
         // GET: api/Books/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Book>> GetBook(int id)
+        public ActionResult<BookDto> GetBook(int id)
         {
-            var book = await _context.Books.FindAsync(id);
-
-            if (book == null)
-            {
-                return NotFound();
-            }
-
-            return book;
+            return _bookService.GetBookById(id);
         }
 
         // PUT: api/Books/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
         public async Task<IActionResult> PutBook(int id, Book book)
         {
@@ -74,7 +70,6 @@ namespace Task4_ReadingList.API.Controllers
         }
 
         // POST: api/Books
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         public async Task<ActionResult<Book>> PostBook(Book book)
         {

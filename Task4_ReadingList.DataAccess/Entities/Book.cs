@@ -10,6 +10,8 @@ namespace Task4_ReadingList.DataAccess.Entities
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public virtual ICollection<Author> Authors { get; set; }
+        public bool IsRead { get; set; }
+        public int AuthorId { get; set; }
+        public Author Author { get; set; }
     }
 }
