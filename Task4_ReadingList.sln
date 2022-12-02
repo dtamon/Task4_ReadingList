@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Task4_ReadingList.DataAcces
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Task4_ReadingList.Service", "Task4_ReadingList.Service\Task4_ReadingList.Service.csproj", "{DEA36B6B-CC6E-48D1-B651-F155C58ACC04}"
 EndProject
+Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "Task4_ReadingList.Client", "Task4_ReadingList.Client\Task4_ReadingList.Client.esproj", "{495F447C-773B-4089-B66F-7F2311E69E38}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,12 @@ Global
 		{DEA36B6B-CC6E-48D1-B651-F155C58ACC04}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DEA36B6B-CC6E-48D1-B651-F155C58ACC04}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DEA36B6B-CC6E-48D1-B651-F155C58ACC04}.Release|Any CPU.Build.0 = Release|Any CPU
+		{495F447C-773B-4089-B66F-7F2311E69E38}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{495F447C-773B-4089-B66F-7F2311E69E38}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{495F447C-773B-4089-B66F-7F2311E69E38}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{495F447C-773B-4089-B66F-7F2311E69E38}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{495F447C-773B-4089-B66F-7F2311E69E38}.Release|Any CPU.Build.0 = Release|Any CPU
+		{495F447C-773B-4089-B66F-7F2311E69E38}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
