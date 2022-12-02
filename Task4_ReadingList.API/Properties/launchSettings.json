@@ -2,6 +2,7 @@
   "profiles": {
     "Task4_ReadingList.API": {
       "commandName": "Project",
+      "launchBrowser": true,
       "launchUrl": "swagger",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
