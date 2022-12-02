@@ -16,6 +16,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Task4_ReadingList.Client\Task4_ReadingList.Client.esproj">
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
     <ProjectReference Include="..\Task4_ReadingList.DataAccess\Task4_ReadingList.DataAccess.csproj" />
     <ProjectReference Include="..\Task4_ReadingList.Service\Task4_ReadingList.Service.csproj" />
   </ItemGroup>
