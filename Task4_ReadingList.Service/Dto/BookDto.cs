@@ -10,8 +10,6 @@ namespace Task4_ReadingList.Service.Dto
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public bool IsRead { get; set; }
-        public int AuthorId { get; set; }
-        public string AuthorName { get; set; }
+        public List<string> Authors { get; set; }
     }
 }

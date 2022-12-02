@@ -11,8 +11,8 @@ using Task4_ReadingList.DataAccess.Context;
 namespace Task4ReadingList.DataAccess.Migrations
 {
     [DbContext(typeof(ReadingListDbContext))]
-    [Migration("20221201093313_add IsRead field to Book")]
-    partial class addIsReadfieldtoBook
+    [Migration("20221129144914_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -23,6 +23,21 @@ namespace Task4ReadingList.DataAccess.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("AuthorBook", b =>
+                {
+                    b.Property<int>("AuthorsId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("BooksId")
+                        .HasColumnType("int");
+
+                    b.HasKey("AuthorsId", "BooksId");
+
+                    b.HasIndex("BooksId");
+
+                    b.ToTable("AuthorBook");
+                });
 
             modelBuilder.Entity("Task4_ReadingList.DataAccess.Entities.Author", b =>
                 {
@@ -42,7 +57,7 @@ namespace Task4ReadingList.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Authors");
+                    b.ToTable("Author");
                 });
 
             modelBuilder.Entity("Task4_ReadingList.DataAccess.Entities.Book", b =>
@@ -53,37 +68,28 @@ namespace Task4ReadingList.DataAccess.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("AuthorId")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("IsRead")
-                        .HasColumnType("bit");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AuthorId");
-
                     b.ToTable("Books");
                 });
 
-            modelBuilder.Entity("Task4_ReadingList.DataAccess.Entities.Book", b =>
+            modelBuilder.Entity("AuthorBook", b =>
                 {
-                    b.HasOne("Task4_ReadingList.DataAccess.Entities.Author", "Author")
-                        .WithMany("Books")
-                        .HasForeignKey("AuthorId")
+                    b.HasOne("Task4_ReadingList.DataAccess.Entities.Author", null)
+                        .WithMany()
+                        .HasForeignKey("AuthorsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Author");
-                });
-
-            modelBuilder.Entity("Task4_ReadingList.DataAccess.Entities.Author", b =>
-                {
-                    b.Navigation("Books");
+                    b.HasOne("Task4_ReadingList.DataAccess.Entities.Book", null)
+                        .WithMany()
+                        .HasForeignKey("BooksId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }
