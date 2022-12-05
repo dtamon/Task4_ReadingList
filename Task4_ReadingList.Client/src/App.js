@@ -9,7 +9,7 @@ export default class App extends Component {
     }
 
     componentDidMount() {
-        // this.getBooks();
+        this.getBooks();
     }
 
     static renderBooksTable(books) {
@@ -24,6 +24,8 @@ export default class App extends Component {
                     {books.map(book =>
                         <tr>
                             <td>{book.name}</td>
+                            <td>{book.authorName}</td>
+                            <td>{book.isRead}</td>
                         </tr>
                     )}
                 </tbody>
@@ -49,6 +51,5 @@ export default class App extends Component {
         const response = await fetch('book', {method: 'GET'});
         const data = await response.json();
         this.setState({ books: data, loading: false });
-        // console.log(data);
     }
 }
