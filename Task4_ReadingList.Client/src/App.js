@@ -18,14 +18,16 @@ export default class App extends Component {
                 <thead>
                     <tr>
                         <th>Title</th>
+                        <th>Author</th>
+                        <th>Is Read</th>
                     </tr>
                 </thead>
                 <tbody>
                     {books.map(book =>
-                        <tr>
+                        <tr key={book.id}>
                             <td>{book.name}</td>
                             <td>{book.authorName}</td>
-                            <td>{book.isRead}</td>
+                            <td><input type="checkbox" checked={book.isRead} id="rowcheck{book.id}" /></td>
                         </tr>
                     )}
                 </tbody>
