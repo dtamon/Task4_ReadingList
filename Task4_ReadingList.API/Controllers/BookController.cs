@@ -12,23 +12,21 @@ using Task4_ReadingList.Service.Services.BookService;
 
 namespace Task4_ReadingList.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
-    public class BooksController : ControllerBase
+    public class BookController : ControllerBase
     {
-        private readonly ReadingListDbContext _context;
         private readonly IBookService _bookService;
 
 
-        public BooksController(ReadingListDbContext context, IBookService bookService)
+        public BookController(IBookService bookService)
         {
-            _context = context;
             _bookService = bookService;
         }
 
         // GET: api/Books
         [HttpGet]
-        public ActionResult<IEnumerable<BookDto>> GetAllBooks()
+        public ActionResult<List<BookDto>> GetAllBooks()
         {
             return Ok(_bookService.GetAllBooks());
         }
@@ -64,9 +62,9 @@ namespace Task4_ReadingList.API.Controllers
             return NoContent();
         }
 
-        private bool BookExists(int id)
-        {
-            return _context.Books.Any(e => e.Id == id);
-        }
+        //private bool BookExists(int id)
+        //{
+        //    return _context.Books.Any(e => e.Id == id);
+        //}
     }
 }

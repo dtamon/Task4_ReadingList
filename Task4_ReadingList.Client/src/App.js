@@ -5,31 +5,25 @@ export default class App extends Component {
 
     constructor(props) {
         super(props);
-        this.state = { forecasts: [], loading: true };
+        this.state = { books: [], loading: true };
     }
 
     componentDidMount() {
-        this.populateWeatherData();
+        // this.getBooks();
     }
 
-    static renderForecastsTable(forecasts) {
+    static renderBooksTable(books) {
         return (
             <table className='table table-striped' aria-labelledby="tabelLabel">
                 <thead>
                     <tr>
-                        <th>Date</th>
-                        <th>Temp. (C)</th>
-                        <th>Temp. (F)</th>
-                        <th>Summary</th>
+                        <th>Title</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {forecasts.map(forecast =>
-                        <tr key={forecast.date}>
-                            <td>{forecast.date}</td>
-                            <td>{forecast.temperatureC}</td>
-                            <td>{forecast.temperatureF}</td>
-                            <td>{forecast.summary}</td>
+                    {books.map(book =>
+                        <tr>
+                            <td>{book.name}</td>
                         </tr>
                     )}
                 </tbody>
@@ -40,20 +34,21 @@ export default class App extends Component {
     render() {
         let contents = this.state.loading
             ? <p><em>Loading... Please refresh once the ASP.NET backend has started. See <a href="https://aka.ms/jspsintegrationreact">https://aka.ms/jspsintegrationreact</a> for more details.</em></p>
-            : App.renderForecastsTable(this.state.forecasts);
+            : App.renderBooksTable(this.state.books);
 
         return (
             <div>
-                <h1 id="tabelLabel" >Weather forecast</h1>
+                <h1 id="tabelLabel" >Reading List</h1>
                 <p>This component demonstrates fetching data from the server.</p>
                 {contents}
             </div>
         );
     }
 
-    async populateWeatherData() {
-        const response = await fetch('weatherforecast');
+    async getBooks() {
+        const response = await fetch('book', {method: 'GET'});
         const data = await response.json();
-        this.setState({ forecasts: data, loading: false });
+        this.setState({ books: data, loading: false });
+        // console.log(data);
     }
 }
