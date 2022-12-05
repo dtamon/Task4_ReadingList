@@ -21,26 +21,29 @@ namespace Task4_ReadingList.DataAccess.Repositories.BookRepository
         public void AddBook(Book book)
         {
             context.Books.Add(book);
+            context.SaveChanges();
         }
 
         public void DeleteBook(Book book)
         {
             context.Books.Remove(book);
+            context.SaveChanges();
         }
 
         public List<Book> GetAllBooks()
         {
-            return context.Books.Include(x => x.Authors).ToList();
+            return context.Books.Include(x => x.Author).ToList();
         }
 
         public Book GetBookById(int id)
         {
-            return context.Books.First(x => x.Id == id);
+            return context.Books.Include(x => x.Author).First(x => x.Id == id);
         }
 
         public void UpdateBook(Book book)
         {
             context.Books.Update(book);
+            context.SaveChanges();
         }
     }
 }

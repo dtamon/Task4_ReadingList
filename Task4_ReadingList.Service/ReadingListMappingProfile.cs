@@ -15,7 +15,7 @@ namespace Task4_ReadingList.Service
         {
             CreateMap<BookDto, Book>();
             CreateMap<Book, BookDto>()
-                .ForMember(d => d.Authors, o => o.MapFrom(s => s.Authors.Select(a => $"{a.FirstName} {a.LastName}")));
+                .ForMember(d => d.AuthorName, o => o.MapFrom(s => $"{s.Author.FirstName} {s.Author.LastName}"));
         }
     }
 }
