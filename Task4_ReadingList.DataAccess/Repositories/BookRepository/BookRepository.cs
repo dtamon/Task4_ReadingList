@@ -18,7 +18,7 @@ namespace Task4_ReadingList.DataAccess.Repositories.BookRepository
             this.context = context;
         }
 
-        public void AddBook(Book book)
+        public void CreateBook(Book book)
         {
             context.Books.Add(book);
             context.SaveChanges();

@@ -11,7 +11,7 @@ namespace Task4_ReadingList.DataAccess.Repositories.BookRepository
     {
         public List<Book> GetAllBooks();
         public Book GetBookById(int id);
-        public void AddBook(Book book);
+        public void CreateBook(Book book);
         public void UpdateBook(Book book);
         public void DeleteBook(Book book);
     }

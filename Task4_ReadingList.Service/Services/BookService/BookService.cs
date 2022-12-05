@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Task4_ReadingList.Service.Dto;
 using Task4_ReadingList.DataAccess.Repositories;
 using Task4_ReadingList.DataAccess.Repositories.BookRepository;
+using Task4_ReadingList.DataAccess.Entities;
 
 namespace Task4_ReadingList.Service.Services.BookService
 {
@@ -21,12 +22,13 @@ namespace Task4_ReadingList.Service.Services.BookService
         }
         public void CreateBook(BookDto book)
         {
-            throw new NotImplementedException();
+            _bookRepository.CreateBook(_mapper.Map<Book>(book));
         }
 
         public void DeleteBook(int id)
         {
-            throw new NotImplementedException();
+            var book = _bookRepository.GetBookById(id);
+            _bookRepository.DeleteBook(book);
         }
 
         public List<BookDto> GetAllBooks()
@@ -41,7 +43,7 @@ namespace Task4_ReadingList.Service.Services.BookService
 
         public void UpdateBook(BookDto book)
         {
-            throw new NotImplementedException();
+            _bookRepository.UpdateBook(_mapper.Map<Book>(book));
         }
     }
 }
