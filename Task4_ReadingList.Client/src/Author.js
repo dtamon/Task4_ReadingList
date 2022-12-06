@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import { variables } from './Variables.js';
 
 export class Author extends Component {
+    static displayName = Author.name;
+
     constructor(props) {
         super(props);
-        this.state = {
-            authors: [],
+        this.state = { 
+            authors: [], 
             modalTitle: "",
             FirstName: "",
             LastName: "",
@@ -14,9 +15,11 @@ export class Author extends Component {
             IdFilter: "",
             FirstNameFilter: "",
             LastNameFilter: "",
-            authorsWithoutFilter: []
-        }
+            authorsWithoutFilter: [],
+            loading: true 
+        };
     }
+
     FilterFn() {
         var IdFilter = this.state.IdFilter;
         var FirstNameFilter = this.state.FirstNameFilter;
@@ -62,11 +65,12 @@ export class Author extends Component {
         this.FilterFn();
     }
 
+    
     refreshList() {
-        fetch(variables.API_URL + 'Author')
+        fetch('author', {method: 'GET'})
         .then(response => response.json())
         .then(data => {
-            this.setState({ authors: data, authorsWithoutFilter: data });
+            this.setState({ authors: data, authorsWithoutFilter: data, loading: false });
         });
     }
 
@@ -93,13 +97,13 @@ export class Author extends Component {
         this.setState({
             modalTitle: "Edit Author",
             Id: author.Id,
-            FirstName: author.FirstName,
-            LastName: author.LastName 
+            FirstName: author.firstName,
+            LastName: author.lastName 
         });
     }
 
     createClick() {
-        fetch(variables.API_URL + 'Author', {
+        fetch('author', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -119,7 +123,7 @@ export class Author extends Component {
             })
     }
     updateClick() {
-        fetch(variables.API_URL + 'Author/' + this.state.Id, {
+        fetch('author/' + this.state.Id, {
             method: 'PUT',
             headers: {
                 'Accept': 'application/json',
@@ -140,7 +144,7 @@ export class Author extends Component {
     }
     deleteCLick(id) {
         if (window.confirm('Are you sure?')) {
-            fetch(variables.API_URL + 'Author/' + id, {
+            fetch('author/' + id, {
                 method: 'DELETE',
                 headers: {
                     'Accept': 'application/json',
@@ -245,7 +249,7 @@ export class Author extends Component {
                                         </svg>
                                     </button>
                                 </div>
-                                last Name
+                                Last Name
 
                             </th>
                             <th>
@@ -255,10 +259,10 @@ export class Author extends Component {
                     </thead>
                     <tbody>
                         {authors.map(author =>
-                            <tr key={author.Id}>
-                                <td>{author.Id}</td>
-                                <td>{author.FirstName}</td>
-                                <td>{author.LastName}</td>
+                            <tr key={author.id}>
+                                <td>{author.id}</td>
+                                <td>{author.firstName}</td>
+                                <td>{author.lastName}</td>
                                 <td>
                                     <button type="button"
                                         className="btn btn-light mr-1"
@@ -273,7 +277,7 @@ export class Author extends Component {
 
                                     <button type="button"
                                         className="btn btn-light mr-1"
-                                        onClick={() => this.deleteClick(author.Id)}>
+                                        onClick={() => this.deleteClick(author.id)}>
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-trash-fill" viewBox="0 0 16 16">
                                             <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z" />
                                         </svg>
@@ -299,6 +303,13 @@ export class Author extends Component {
                                     <input type="text" className="form-control"
                                         value={FirstName}
                                         onChange={this.changeAuthorFirstName} />
+                                </div>
+
+                                <div className="input-group mb-3">
+                                    <span className="input-group-text">Last Name</span>
+                                    <input type="text" className="form-control"
+                                        value={LastName}
+                                        onChange={this.changeAuthorLastName} />
                                 </div>
 
                                 {Id === 0 ?

@@ -2,6 +2,7 @@
 
 const context = [
     "/book",
+    "/author"
 ];
 
 module.exports = function (app) {

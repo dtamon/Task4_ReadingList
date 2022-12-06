@@ -17,24 +17,25 @@ function App() {
         <nav className='navbar navbar-expand-sm bg-light navbar-dark'>
           <ul className='navbar-nav'>
             <li className='nav-item m-1'>
-              <NavLink className='btn btn-light btn-outline-primary' to='/home'>Home</NavLink>
+              <NavLink className='btn btn-light btn-outline-primary' to="/home">Home</NavLink>
             </li>
             <li className='nav-item m-1'>
-              <NavLink className='btn btn-light btn-outline-primary' to='/book'>Book</NavLink>
+              <NavLink className='btn btn-light btn-outline-primary' to='/book'>Books</NavLink>
             </li>
             <li className='nav-item m-1'>
-              <NavLink className='btn btn-light btn-outline-primary' to='/author'>Author</NavLink>
+              <NavLink className='btn btn-light btn-outline-primary' to='/author'>Authors</NavLink>
             </li>
           </ul>
         </nav>
 
         <Routes>
-          <Route path='/home' component={Home}></Route>
-          <Route path='/book' component={Book}></Route>
-          <Route path='/author' component={Author}></Route>
+          <Route path='/home' element={<Home />}></Route>
+          <Route path='/book' element={<Book />}></Route>
+          <Route path='/author' element={<Author />}></Route>
         </Routes>
     </div>
     </BrowserRouter>
+    
   );
 }
 
