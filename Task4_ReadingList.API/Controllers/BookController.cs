@@ -18,27 +18,26 @@ namespace Task4_ReadingList.API.Controllers
     {
         private readonly IBookService _bookService;
 
-
         public BookController(IBookService bookService)
         {
             _bookService = bookService;
         }
 
-        // GET: api/Books
+        // GET: Book
         [HttpGet]
         public ActionResult<List<BookDto>> GetAllBooks()
         {
             return Ok(_bookService.GetAllBooks());
         }
 
-        // GET: api/Books/5
+        // GET: Book/5
         [HttpGet("{id}")]
         public ActionResult<BookDto> GetBook(int id)
         {
             return Ok(_bookService.GetBookById(id));
         }
 
-        // PUT: api/Books/5
+        // PUT: Book/5
         [HttpPut("{id}")]
         public IActionResult UpdateBook(BookDto book)
         {
@@ -46,7 +45,7 @@ namespace Task4_ReadingList.API.Controllers
             return Ok(book);
         }
 
-        // POST: api/Books
+        // POST: Book
         [HttpPost]
         public ActionResult<BookDto> CreateBook(BookDto book)
         {
@@ -54,17 +53,12 @@ namespace Task4_ReadingList.API.Controllers
             return Ok(book);
         }
 
-        // DELETE: api/Books/5
+        // DELETE: Book/5
         [HttpDelete("{id}")]
         public IActionResult DeleteBook(int id)
         {
             _bookService.DeleteBook(id);
             return NoContent();
         }
-
-        //private bool BookExists(int id)
-        //{
-        //    return _context.Books.Any(e => e.Id == id);
-        //}
     }
 }

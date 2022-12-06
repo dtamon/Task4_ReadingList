@@ -1,57 +1,41 @@
-import React, { Component } from 'react';
+import logo from './logo.svg';
+import './App.css';
 
-export default class App extends Component {
-    static displayName = App.name;
+import {Home} from './Home';
+import {Author} from './Author'
+import {Book} from './Book';
+import {BrowserRouter, Route, Routes, NavLink} from 'react-router-dom';
 
-    constructor(props) {
-        super(props);
-        this.state = { books: [], loading: true };
-    }
+function App() {
+  return (
+    <BrowserRouter>
+    <div className='App container'>
+        <h3 className='d-flex justify-content-center m-3'>
+            React JS Frontent
+        </h3>
 
-    componentDidMount() {
-        this.getBooks();
-    }
+        <nav className='navbar navbar-expand-sm bg-light navbar-dark'>
+          <ul className='navbar-nav'>
+            <li className='nav-item m-1'>
+              <NavLink className='btn btn-light btn-outline-primary' to='/home'>Home</NavLink>
+            </li>
+            <li className='nav-item m-1'>
+              <NavLink className='btn btn-light btn-outline-primary' to='/book'>Book</NavLink>
+            </li>
+            <li className='nav-item m-1'>
+              <NavLink className='btn btn-light btn-outline-primary' to='/author'>Author</NavLink>
+            </li>
+          </ul>
+        </nav>
 
-    static renderBooksTable(books) {
-        return (
-            <table className='table table-striped' aria-labelledby="tabelLabel">
-                <thead>
-                    <tr>
-                        <th>Title</th>
-                        <th>Author</th>
-                        <th>Is Read</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {books.map(book =>
-                        <tr key={book.id}>
-                            <td>{book.name}</td>
-                            <td>{book.authorName}</td>
-                            <td><input type="checkbox" checked={book.isRead} id="rowcheck{book.id}" /></td>
-                        </tr>
-                    )}
-                </tbody>
-            </table>
-        );
-    }
-
-    render() {
-        let contents = this.state.loading
-            ? <p><em>Loading... Please refresh once the ASP.NET backend has started. See <a href="https://aka.ms/jspsintegrationreact">https://aka.ms/jspsintegrationreact</a> for more details.</em></p>
-            : App.renderBooksTable(this.state.books);
-
-        return (
-            <div>
-                <h1 id="tabelLabel" >Reading List</h1>
-                <p>This component demonstrates fetching data from the server.</p>
-                {contents}
-            </div>
-        );
-    }
-
-    async getBooks() {
-        const response = await fetch('book', {method: 'GET'});
-        const data = await response.json();
-        this.setState({ books: data, loading: false });
-    }
+        <Routes>
+          <Route path='/home' component={Home}></Route>
+          <Route path='/book' component={Book}></Route>
+          <Route path='/author' component={Author}></Route>
+        </Routes>
+    </div>
+    </BrowserRouter>
+  );
 }
+
+export default App;
