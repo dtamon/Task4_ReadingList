@@ -10,9 +10,9 @@ function App() {
   return (
     <BrowserRouter>
     <div className='App container'>
-        <h3 className='d-flex justify-content-center m-3'>
-            React JS Frontent
-        </h3>
+        <h1 className='d-flex justify-content-center m-3'>
+            Task4_ReadingList
+        </h1>
 
         <nav className='navbar navbar-expand-sm bg-light navbar-dark'>
           <ul className='navbar-nav'>

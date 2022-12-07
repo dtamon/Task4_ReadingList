@@ -36,7 +36,7 @@ namespace Task4_ReadingList.API.Controllers
         public ActionResult<AuthorDto> CreateAuthor(AuthorDto author)
         {
             _authorService.CreateAuthor(author);
-            return Ok(author);
+            return Ok("Added Succesfully");
         }
 
         // PUT Author/2
@@ -44,15 +44,15 @@ namespace Task4_ReadingList.API.Controllers
         public IActionResult UpdateAuthor(AuthorDto author)
         {
             _authorService.UpdateAuthor(author);
-            return Ok(author);
+            return Ok("Updated Successfully");
         }
 
         // DELETE Author/2
         [HttpDelete("{id}")]
-        public IActionResult DeleteAuthor(int id)
+        public JsonResult DeleteAuthor(int id)
         {
             _authorService.DeleteAuthor(id);
-            return NoContent();
+            return new JsonResult("Deleted Succesfully");
         }
     }
 }

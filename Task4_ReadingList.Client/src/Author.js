@@ -8,33 +8,33 @@ export class Author extends Component {
         this.state = { 
             authors: [], 
             modalTitle: "",
-            FirstName: "",
-            LastName: "",
-            Id: 0,
+            firstName: "",
+            lastName: "",
+            id: 0,
 
-            IdFilter: "",
-            FirstNameFilter: "",
-            LastNameFilter: "",
+            idFilter: "",
+            firstNameFilter: "",
+            lastNameFilter: "",
             authorsWithoutFilter: [],
             loading: true 
         };
     }
 
     FilterFn() {
-        var IdFilter = this.state.IdFilter;
-        var FirstNameFilter = this.state.FirstNameFilter;
-        var LastNameFilter = this.state.LastNameFilter;
+        var idFilter = this.state.idFilter;
+        var firstNameFilter = this.state.firstNameFilter;
+        var lastNameFilter = this.state.lastNameFilter;
 
         var filteredData = this.state.authorsWithoutFilter.filter(
             function (el) {
-                return el.Id.toString().toLowerCase().includes(
-                    IdFilter.toString().trim().toLowerCase()
+                return el.id.toString().toLowerCase().includes(
+                    idFilter.toString().trim().toLowerCase()
                 ) && 
-                el.FirstName.toString().toLowerCase().includes(
-                FirstNameFilter.toString().trim().toLowerCase()
+                el.firstName.toString().toLowerCase().includes(
+                firstNameFilter.toString().trim().toLowerCase()
                 ) &&
-                el.LastName.toString().toLowerCase().includes(
-                LastNameFilter.toString().trim().toLowerCase()
+                el.lastName.toString().toLowerCase().includes(
+                lastNameFilter.toString().trim().toLowerCase()
                 )
             }
         );
@@ -53,15 +53,15 @@ export class Author extends Component {
     }
 
     changeIdFilter = (e) => {
-        this.setState.IdFilter = e.target.value;
+        this.state.idFilter = e.target.value;
         this.FilterFn();
     }
     changeFirstNameFilter = (e) => {
-        this.state.FirstNameFilter = e.target.value;
+        this.state.firstNameFilter = e.target.value;
         this.FilterFn();
     }
     changeLastNameFilter = (e) => {
-        this.state.LastNameFilter = e.target.value;
+        this.state.lastNameFilter = e.target.value;
         this.FilterFn();
     }
 
@@ -79,26 +79,26 @@ export class Author extends Component {
     }
 
     changeAuthorFirstName = (e) => {
-        this.setState({ FirstName: e.target.value });
+        this.setState({ firstName: e.target.value });
     }
     changeAuthorLastName = (e) => {
-        this.setState({ LastName: e.target.value });
+        this.setState({ lastName: e.target.value });
     }
 
     addClick(){
         this.setState({
             modalTitle: "Add Author",
-            Id: 0,
-            FirstName: "",
-            LastName: ""
+            id: 0,
+            firstName: "",
+            lastName: ""
         });
     }
     editClick(author){
         this.setState({
             modalTitle: "Edit Author",
-            Id: author.Id,
-            FirstName: author.firstName,
-            LastName: author.lastName 
+            id: author.id,
+            firstName: author.firstName,
+            lastName: author.lastName 
         });
     }
 
@@ -110,8 +110,8 @@ export class Author extends Component {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                FirstName: this.state.FirstName,
-                LastName: this.state.LastName
+                firstName: this.state.firstName,
+                lastName: this.state.lastName
             })
         })
             .then(res => res.json())
@@ -123,15 +123,16 @@ export class Author extends Component {
             })
     }
     updateClick() {
-        fetch('author/' + this.state.Id, {
+        fetch('author/' + this.state.id, {
             method: 'PUT',
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                FirstName: this.state.FirstName,
-                LastName: this.state.LastName
+                id: this.state.id,
+                firstName: this.state.firstName,
+                lastName: this.state.lastName
             })
         })
             .then(res => res.json())
@@ -142,7 +143,7 @@ export class Author extends Component {
                 alert('Failed');
             })
     }
-    deleteCLick(id) {
+    deleteClick(id) {
         if (window.confirm('Are you sure?')) {
             fetch('author/' + id, {
                 method: 'DELETE',
@@ -157,6 +158,7 @@ export class Author extends Component {
                     this.refreshList();
                 }, (error) => {
                     alert('Failed');
+                    this.refreshList();
                 })
         }
     }
@@ -165,9 +167,9 @@ export class Author extends Component {
         const {
             authors,
             modalTitle,
-            Id,
-            FirstName,
-            LastName
+            id,
+            firstName,
+            lastName
         } = this.state;
         return (
             <div>
@@ -178,33 +180,32 @@ export class Author extends Component {
                     onClick={() => this.addClick()}>
                     Add Author
                 </button>
-                <h3>Lista autorow</h3>
+                <h1 className='d-flex justify-content-left m-3'>Authors List</h1>
                 <table className="table table-striped">
                     <thead>
                         <tr>
                             <th>
                                 <div className="d-flex flex-row">
-
                                     <input className="form-control m-2"
                                         onChange={this.changeIdFilter}
                                         placeholder="Filter" />
 
                                     <button type="button" className="btn btn-light"
-                                        onClick={() => this.sortResult('Id', true)}>
+                                        onClick={() => this.sortResult('id', true)}>
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-arrow-down-square-fill" viewBox="0 0 16 16">
                                             <path d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm6.5 4.5v5.793l2.146-2.147a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 1 1 .708-.708L7.5 10.293V4.5a.5.5 0 0 1 1 0z" />
                                         </svg>
                                     </button>
 
                                     <button type="button" className="btn btn-light"
-                                        onClick={() => this.sortResult('Id', false)}>
+                                        onClick={() => this.sortResult('id', false)}>
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-arrow-up-square-fill" viewBox="0 0 16 16">
                                             <path d="M2 16a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2zm6.5-4.5V5.707l2.146 2.147a.5.5 0 0 0 .708-.708l-3-3a.5.5 0 0 0-.708 0l-3 3a.5.5 0 1 0 .708.708L7.5 5.707V11.5a.5.5 0 0 0 1 0z" />
                                         </svg>
                                     </button>
 
                                 </div>
-                                Author Id
+                                Author id
                             </th>
                             <th>
                                 <div className="d-flex flex-row">
@@ -213,14 +214,14 @@ export class Author extends Component {
                                         placeholder="Filter" />
 
                                     <button type="button" className="btn btn-light"
-                                        onClick={() => this.sortResult('FirstName', true)}>
+                                        onClick={() => this.sortResult('firstName', true)}>
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-arrow-down-square-fill" viewBox="0 0 16 16">
                                             <path d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm6.5 4.5v5.793l2.146-2.147a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 1 1 .708-.708L7.5 10.293V4.5a.5.5 0 0 1 1 0z" />
                                         </svg>
                                     </button>
 
                                     <button type="button" className="btn btn-light"
-                                        onClick={() => this.sortResult('FirstName', false)}>
+                                        onClick={() => this.sortResult('firstName', false)}>
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-arrow-up-square-fill" viewBox="0 0 16 16">
                                             <path d="M2 16a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2zm6.5-4.5V5.707l2.146 2.147a.5.5 0 0 0 .708-.708l-3-3a.5.5 0 0 0-.708 0l-3 3a.5.5 0 1 0 .708.708L7.5 5.707V11.5a.5.5 0 0 0 1 0z" />
                                         </svg>
@@ -236,14 +237,14 @@ export class Author extends Component {
                                         placeholder="Filter" />
 
                                     <button type="button" className="btn btn-light"
-                                        onClick={() => this.sortResult('LastName', true)}>
+                                        onClick={() => this.sortResult('lastName', true)}>
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-arrow-down-square-fill" viewBox="0 0 16 16">
                                             <path d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm6.5 4.5v5.793l2.146-2.147a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 1 1 .708-.708L7.5 10.293V4.5a.5.5 0 0 1 1 0z" />
                                         </svg>
                                     </button>
 
                                     <button type="button" className="btn btn-light"
-                                        onClick={() => this.sortResult('LastName', false)}>
+                                        onClick={() => this.sortResult('lastName', false)}>
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-arrow-up-square-fill" viewBox="0 0 16 16">
                                             <path d="M2 16a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2zm6.5-4.5V5.707l2.146 2.147a.5.5 0 0 0 .708-.708l-3-3a.5.5 0 0 0-.708 0l-3 3a.5.5 0 1 0 .708.708L7.5 5.707V11.5a.5.5 0 0 0 1 0z" />
                                         </svg>
@@ -301,25 +302,25 @@ export class Author extends Component {
                                 <div className="input-group mb-3">
                                     <span className="input-group-text">First Name</span>
                                     <input type="text" className="form-control"
-                                        value={FirstName}
+                                        value={firstName}
                                         onChange={this.changeAuthorFirstName} />
                                 </div>
 
                                 <div className="input-group mb-3">
                                     <span className="input-group-text">Last Name</span>
                                     <input type="text" className="form-control"
-                                        value={LastName}
+                                        value={lastName}
                                         onChange={this.changeAuthorLastName} />
                                 </div>
 
-                                {Id === 0 ?
+                                {id === 0 ?
                                     <button type="button"
                                         className="btn btn-primary float-start"
                                         onClick={() => this.createClick()}
                                     >Create</button>
                                     : null}
 
-                                {Id !== 0 ?
+                                {id !== 0 ?
                                     <button type="button"
                                         className="btn btn-primary float-start"
                                         onClick={() => this.updateClick()}
