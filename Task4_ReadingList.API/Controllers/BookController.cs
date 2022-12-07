@@ -42,7 +42,7 @@ namespace Task4_ReadingList.API.Controllers
         public IActionResult UpdateBook(BookDto book)
         {
             _bookService.UpdateBook(book);
-            return Ok(book);
+            return Ok("Updated Succesfully");
         }
 
         // POST: Book
@@ -50,15 +50,15 @@ namespace Task4_ReadingList.API.Controllers
         public ActionResult<BookDto> CreateBook(BookDto book)
         {
             _bookService.CreateBook(book);
-            return Ok(book);
+            return Ok("Added Succesfully");
         }
 
         // DELETE: Book/5
         [HttpDelete("{id}")]
-        public IActionResult DeleteBook(int id)
+        public JsonResult DeleteBook(int id)
         {
             _bookService.DeleteBook(id);
-            return NoContent();
+            return new JsonResult("Deleted Succesfully");
         }
     }
 }

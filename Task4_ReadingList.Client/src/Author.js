@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 
 export class Author extends Component {
-    static displayName = Author.name;
 
     constructor(props) {
         super(props);
@@ -16,8 +15,19 @@ export class Author extends Component {
             firstNameFilter: "",
             lastNameFilter: "",
             authorsWithoutFilter: [],
-            loading: true 
         };
+    }
+
+    refreshList() {
+        fetch('author', {method: 'GET'})
+        .then(response => response.json())
+        .then(data => {
+            this.setState({ authors: data, authorsWithoutFilter: data });
+        });
+    }
+
+    componentDidMount() {
+        this.refreshList();
     }
 
     FilterFn() {
@@ -63,19 +73,6 @@ export class Author extends Component {
     changeLastNameFilter = (e) => {
         this.state.lastNameFilter = e.target.value;
         this.FilterFn();
-    }
-
-    
-    refreshList() {
-        fetch('author', {method: 'GET'})
-        .then(response => response.json())
-        .then(data => {
-            this.setState({ authors: data, authorsWithoutFilter: data, loading: false });
-        });
-    }
-
-    componentDidMount() {
-        this.refreshList();
     }
 
     changeAuthorFirstName = (e) => {
