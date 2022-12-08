@@ -32,7 +32,7 @@ namespace Task4_ReadingList.DataAccess.Repositories.BookRepository
 
         public List<Book> GetAllBooks()
         {
-            return context.Books.Include(x => x.Author).ToList();
+            return context.Books.Include(x => x.Author).OrderBy(x => x.Position).ToList();
         }
 
         public Book GetBookById(int id)

@@ -25,7 +25,7 @@ namespace Task4_ReadingList.API.Controllers
 
         // GET: Book
         [HttpGet]
-        public ActionResult<List<BookDto>> GetAllBooks()
+        public ActionResult<LinkedList<BookDto>> GetAllBooks()
         {
             return Ok(_bookService.GetAllBooks());
         }
@@ -59,6 +59,15 @@ namespace Task4_ReadingList.API.Controllers
         {
             _bookService.DeleteBook(id);
             return new JsonResult("Deleted Succesfully");
+        }
+
+        [HttpPut]
+        [Route("SaveOrder")]
+        public IActionResult UpdateBooksOrder(LinkedList<BookDto> books)
+        {
+            var bookList = books.ToList();
+            _bookService.UpdateBooksOrder(books);
+            return Ok("Order saved successfully");
         }
     }
 }

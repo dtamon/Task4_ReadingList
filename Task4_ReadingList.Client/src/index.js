@@ -6,6 +6,7 @@ import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
+  // had to comment it out because https://github.com/atlassian/react-beautiful-dnd/issues/2396
   // <React.StrictMode>
     <App />
   // </React.StrictMode>

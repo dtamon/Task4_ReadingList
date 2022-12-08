@@ -14,5 +14,6 @@ namespace Task4_ReadingList.Service.Services.BookService
         public void CreateBook(BookDto book);
         public void UpdateBook(BookDto book);
         public void DeleteBook(int id);
+        public void UpdateBooksOrder(LinkedList<BookDto> books);
     }
 }

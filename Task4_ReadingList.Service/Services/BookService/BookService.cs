@@ -43,7 +43,28 @@ namespace Task4_ReadingList.Service.Services.BookService
 
         public void UpdateBook(BookDto book)
         {
+            if (book.IsRead)
+            {
+                book.Position = null;
+            }
             _bookRepository.UpdateBook(_mapper.Map<Book>(book));
+        }
+
+        public void UpdateBooksOrder(LinkedList<BookDto> books)
+        {
+            var i = 1;
+            foreach (var book in books)
+            {
+                if (!book.IsRead)
+                {
+                    if (book.Position != i)
+                    {
+                        book.Position = i;
+                        _bookRepository.UpdateBook(_mapper.Map<Book>(book));
+                    } 
+                    i++;
+                }   
+            }
         }
     }
 }

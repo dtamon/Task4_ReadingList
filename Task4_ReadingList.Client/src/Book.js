@@ -1,23 +1,23 @@
 import React, { Component } from 'react';
 import { MdDragHandle } from 'react-icons/md'
 import { DragDropContext, Droppable, Draggable} from 'react-beautiful-dnd';
-import { useState } from 'react';
 
 export class Book extends Component {
 
     constructor(props) {
         super(props);
-        this.state = { 
-            books: [], 
+        this.state = {
+            books: [],
             authors: [],
             modalTitle: "",
             id: 0,
-            name: "",
+            title: "",
             authorId: 0,
             authorName: "",
             isRead: false,
+            position: 0,
 
-            nameFilter: "",
+            titleFilter: "",
             authorNameFilter: "",
             isReadFilter: "",
             booksWithoutFilter: [],
@@ -41,16 +41,16 @@ export class Book extends Component {
         this.refreshList();
     }
 
-    FilterFn() {
-        var nameFilter = this.state.nameFilter;
+    filterData() {
+        var titleFilter = this.state.titleFilter;
         var authorNameFilter = this.state.authorNameFilter;
         var isReadFilter = this.state.isReadFilter;
 
         var filteredData = this.state.booksWithoutFilter.filter(
             function (el) {
-                return el.name.toString().toLowerCase().includes(
-                    nameFilter.toString().trim().toLowerCase()
-                ) && 
+                return el.title.toString().toLowerCase().includes(
+                    titleFilter.toString().trim().toLowerCase()
+                ) &&
                 el.authorName.toString().toLowerCase().includes(
                 authorNameFilter.toString().trim().toLowerCase()
                 ) &&
@@ -71,23 +71,24 @@ export class Book extends Component {
             }
         });
         this.setState({ books: sortedData });
+        this.filterData();
     }
 
     changeNameFilter = (e) => {
-        this.state.nameFilter = e.target.value;
-        this.FilterFn();
+        this.state.titleFilter = e.target.value;
+        this.filterData();
     }
     changeAuthorNameFilter = (e) => {
         this.state.authorNameFilter = e.target.value;
-        this.FilterFn();
+        this.filterData();
     }
     changeIsReadFilter = (e) => {
         this.state.isReadFilter = e.target.value;
-        this.FilterFn();
+        this.filterData();
     }
 
     changeBookName = (e) => {
-        this.setState({ name: e.target.value });
+        this.setState({ title: e.target.value });
     }
     changeAuthor = (e) => {
         this.setState({ authorId: e.target.value,});
@@ -100,20 +101,22 @@ export class Book extends Component {
         this.setState({
             modalTitle: "Add book",
             id: 0,
-            name: "",
+            title: "",
             authorId: 0,
             authorName: "",
-            isRead: false
+            isRead: false,
+            position: 0
         });
     }
     editClick(book){
         this.setState({
             modalTitle: "Edit book",
             id: book.id,
-            name: book.name,
+            title: book.title,
             authorId: book.authorId,
             authorName: book.authorName,
-            isRead: book.isRead 
+            isRead: book.isRead,
+            position: book.position
         });
     }
 
@@ -125,10 +128,11 @@ export class Book extends Component {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                name: this.state.name,
+                title: this.state.title,
                 authorId: this.state.authorId,
                 authorName: this.state.authorName,
-                isRead: this.state.isRead
+                isRead: this.state.isRead,
+                position: this.state.position
             })
         })
             .then(res => res.json())
@@ -148,10 +152,11 @@ export class Book extends Component {
             },
             body: JSON.stringify({
                 id: this.state.id,
-                name: this.state.name,
+                title: this.state.title,
                 authorId: this.state.authorId,
                 authorName: this.state.authorName,
-                isRead: this.state.isRead
+                isRead: this.state.isRead,
+                position: this.state.position
             })
         })
             .then(res => res.json())
@@ -181,6 +186,26 @@ export class Book extends Component {
         }
     }
 
+    saveClick() {
+        if (window.confirm("Do you want to save the order?")) {
+            fetch('book/saveOrder', {
+                method: 'PUT',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(this.state.books)
+            })
+                .then(res => res.json())
+                .then((result) => {
+                    alert(result);
+                    this.refreshList();
+                }, (error) => {
+                    alert('Failed');
+                })
+        }
+    }
+
     onDragEnd = (e) => {
         if(!e.destination) return ;
         let tempBook = [...this.state.books]
@@ -195,9 +220,9 @@ export class Book extends Component {
             authors,
             modalTitle,
             id,
-            name,
+            title,
             authorId,
-            isRead
+            isRead,
         } = this.state;
         return (
             <div>
@@ -208,6 +233,11 @@ export class Book extends Component {
                     onClick={() => this.addClick()}>
                     Add book
                 </button>
+                <button type="button"
+                    className="btn btn-primary m-2 float-end"
+                    onClick={() => this.saveClick()}>
+                    Save Order
+                </button>
                 <h1 className='d-flex justify-content-left m-3'>Books List</h1>
                 <DragDropContext onDragEnd={(results) => this.onDragEnd(results)}>
                     <table className="table table-striped">
@@ -216,19 +246,37 @@ export class Book extends Component {
                                 <th></th>
                                 <th>
                                     <div className="d-flex flex-row">
-                                        <input className="form-control m-2"
-                                            onChange={this.changeNameFilter}
-                                            placeholder="Filter" />
-
-                                        <button type="button" className="btn btn-light"
-                                            onClick={() => this.sortResult('name', true)}>
+                                    <button type="button" className="btn btn-light"
+                                            onClick={() => this.sortResult('position', true)}>
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-arrow-down-square-fill" viewBox="0 0 16 16">
                                                 <path d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm6.5 4.5v5.793l2.146-2.147a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 1 1 .708-.708L7.5 10.293V4.5a.5.5 0 0 1 1 0z" />
                                             </svg>
                                         </button>
 
                                         <button type="button" className="btn btn-light"
-                                            onClick={() => this.sortResult('name', false)}>
+                                            onClick={() => this.sortResult('position', false)}>
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-arrow-up-square-fill" viewBox="0 0 16 16">
+                                                <path d="M2 16a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2zm6.5-4.5V5.707l2.146 2.147a.5.5 0 0 0 .708-.708l-3-3a.5.5 0 0 0-.708 0l-3 3a.5.5 0 1 0 .708.708L7.5 5.707V11.5a.5.5 0 0 0 1 0z" />
+                                            </svg>
+                                        </button>
+                                    </div>
+                                    Position
+                                </th>
+                                <th>
+                                    <div className="d-flex flex-row">
+                                        <input className="form-control m-2"
+                                            onChange={this.changeNameFilter}
+                                            placeholder="Filter" />
+
+                                        <button type="button" className="btn btn-light"
+                                            onClick={() => this.sortResult('title', true)}>
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-arrow-down-square-fill" viewBox="0 0 16 16">
+                                                <path d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm6.5 4.5v5.793l2.146-2.147a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 1 1 .708-.708L7.5 10.293V4.5a.5.5 0 0 1 1 0z" />
+                                            </svg>
+                                        </button>
+
+                                        <button type="button" className="btn btn-light"
+                                            onClick={() => this.sortResult('title', false)}>
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-arrow-up-square-fill" viewBox="0 0 16 16">
                                                 <path d="M2 16a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2zm6.5-4.5V5.707l2.146 2.147a.5.5 0 0 0 .708-.708l-3-3a.5.5 0 0 0-.708 0l-3 3a.5.5 0 1 0 .708.708L7.5 5.707V11.5a.5.5 0 0 0 1 0z" />
                                             </svg>
@@ -260,51 +308,33 @@ export class Book extends Component {
                                     Author
                                 </th>
                                 <th>
-                                    <div className="d-flex flex-row">
-                                        <select className="form-select m-2"
-                                                    onChange={this.changeIsReadFilter}>
-                                                        <option value="">All</option>
-                                                        <option value="false">To Read</option>
-                                                        <option value="true">Already Read</option>
-                                                </select>
-
-                                        <button type="button" className="btn btn-light"
-                                            onClick={() => this.sortResult('isRead', true)}>
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-arrow-down-square-fill" viewBox="0 0 16 16">
-                                                <path d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm6.5 4.5v5.793l2.146-2.147a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 1 1 .708-.708L7.5 10.293V4.5a.5.5 0 0 1 1 0z" />
-                                            </svg>
-                                        </button>
-
-                                        <button type="button" className="btn btn-light"
-                                            onClick={() => this.sortResult('isRead', false)}>
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-arrow-up-square-fill" viewBox="0 0 16 16">
-                                                <path d="M2 16a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2zm6.5-4.5V5.707l2.146 2.147a.5.5 0 0 0 .708-.708l-3-3a.5.5 0 0 0-.708 0l-3 3a.5.5 0 1 0 .708.708L7.5 5.707V11.5a.5.5 0 0 0 1 0z" />
-                                            </svg>
-                                        </button>
-                                    </div>
-                                    Read
-
-                                </th>
-                                <th>
+                                <div className="d-flex flex-row">
+                                    <select className="form-select m-2"
+                                            onChange={this.changeIsReadFilter}>
+                                                <option value="false">To Read</option>
+                                                <option value="true">Already Read</option>
+                                                <option value="" selected>All</option>
+                                    </select>
+                                </div>
                                     Options
                                 </th>
                             </tr>
                         </thead>
-                        
+
                         <Droppable droppableId='tbody'>
                             {(provider) => (
                                     <tbody ref={provider.innerRef} {...provider.droppableProps} >
                                         {books.map((book, index) =>
 
-                                            <Draggable key={book.id} draggableId={book.name} index={index}>
+                                            <Draggable key={book.id} draggableId={book.title} index={index}>
                                                 {(provider) => (
                                                     <tr key={book.id} ref={provider.innerRef} {...provider.draggableProps} >
                                                         <td style={{ width: 50 }} {...provider.dragHandleProps}>
                                                             <MdDragHandle size={25} />
                                                         </td>
-                                                        <td>{book.name}</td>
+                                                        <td>{book.position}</td>
+                                                        <td>{book.title}</td>
                                                         <td>{book.authorName}</td>
-                                                        <td><input type="checkbox" checked={book.isRead} id="rowcheck{book.id}" disabled/></td>
                                                         <td>
                                                             <button type="button"
                                                                 className="btn btn-light mr-1"
@@ -316,7 +346,7 @@ export class Book extends Component {
                                                                     <path fillRule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
                                                                 </svg>
                                                             </button>
-        
+
                                                             <button type="button"
                                                                 className="btn btn-light mr-1"
                                                                 onClick={() => this.deleteClick(book.id)}>
@@ -324,7 +354,7 @@ export class Book extends Component {
                                                                     <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z" />
                                                                 </svg>
                                                             </button>
-        
+
                                                         </td>
                                                     </tr>
                                                 )}
@@ -336,13 +366,6 @@ export class Book extends Component {
                         </Droppable>
                     </table>
                 </DragDropContext>
-                <button type="button"
-                    className="btn btn-primary m-2 float-end"
-                    data-bs-toggle="modal"
-                    data-bs-target="#exampleModal"
-                    onClick={() => this.saveClick()}>
-                    Save Order
-                </button>
                 <div className="modal fade" id="exampleModal" tabIndex="-1" aria-hidden="true">
                     <div className="modal-dialog modal-lg modal-dialog-centered">
                         <div className="modal-content">
@@ -356,7 +379,7 @@ export class Book extends Component {
                                 <div className="input-group mb-3">
                                     <span className="input-group-text">Title</span>
                                     <input type="text" className="form-control"
-                                        value={name}
+                                        value={title}
                                         onChange={this.changeBookName} />
                                 </div>
 
@@ -376,7 +399,7 @@ export class Book extends Component {
 
                                 <div className="input-group mb-3">
                                     <span className="input-group-text">Is Read</span>
-                                    <input type="checkbox" className='form-check-input'
+                                    <input type="checkbox"
                                         checked={isRead}
                                         onChange={this.changeIsRead} />
                                 </div>
