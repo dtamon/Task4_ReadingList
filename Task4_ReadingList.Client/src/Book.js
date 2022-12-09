@@ -17,6 +17,9 @@ export class Book extends Component {
             isRead: false,
             position: 0,
 
+            titleError: "",
+            authorError: "",
+
             titleFilter: "",
             authorNameFilter: "",
             isReadFilter: "",
@@ -87,7 +90,7 @@ export class Book extends Component {
         this.filterData();
     }
 
-    changeBookName = (e) => {
+    changeBookTitle = (e) => {
         this.setState({ title: e.target.value });
     }
     changeAuthor = (e) => {
@@ -105,7 +108,9 @@ export class Book extends Component {
             authorId: 0,
             authorName: "",
             isRead: false,
-            position: 0
+            position: 0,
+            titleError: "",
+            authorError: "",
         });
     }
     editClick(book){
@@ -116,7 +121,9 @@ export class Book extends Component {
             authorId: book.authorId,
             authorName: book.authorName,
             isRead: book.isRead,
-            position: book.position
+            position: book.position,
+            titleError: "",
+            authorError: "",
         });
     }
 
@@ -132,13 +139,13 @@ export class Book extends Component {
                 authorId: this.state.authorId,
                 authorName: this.state.authorName,
                 isRead: this.state.isRead,
-                position: this.state.position
+                position: this.state.position,
             })
         })
             .then(res => res.json())
             .then((result) => {
-                alert(result);
                 this.refreshList();
+                this.setState({ titleError: result.errors.Title[0], authorError: result.errors.AuthorId[0]})
             }, (error) => {
                 alert('Failed');
             })
@@ -161,8 +168,9 @@ export class Book extends Component {
         })
             .then(res => res.json())
             .then((result) => {
-                alert(result);
                 this.refreshList();
+                this.filterData();
+                this.setState({ titleError: result.errors.Title[0], authorError: result.errors.AuthorId[0]})
             }, (error) => {
                 alert('Failed');
             })
@@ -223,6 +231,8 @@ export class Book extends Component {
             title,
             authorId,
             isRead,
+            titleError,
+            authorError,
         } = this.state;
         return (
             <div>
@@ -376,14 +386,15 @@ export class Book extends Component {
                             </div>
 
                             <div className="modal-body">
-                                <div className="input-group mb-3">
+                                <div className="input-group mb-1">
                                     <span className="input-group-text">Title</span>
                                     <input type="text" className="form-control"
                                         value={title}
-                                        onChange={this.changeBookName} />
+                                        onChange={this.changeBookTitle} />
                                 </div>
+                                <span className="input-group mb-3 text-danger">{titleError}</span>
 
-                                <div className="input-group mb-3">
+                                <div className="input-group mb-1">
                                     <span className="input-group-text">Author</span>
                                     <select className="form-select"
                                                 onChange={this.changeAuthor}
@@ -394,14 +405,14 @@ export class Book extends Component {
                                                         {author.firstName} {author.lastName}
                                                     </option>)}
                                             </select>
-
                                 </div>
+                                <span className="input-group mb-3 text-danger">{authorError}</span>
 
                                 <div className="input-group mb-3">
-                                    <span className="input-group-text">Is Read</span>
-                                    <input type="checkbox"
-                                        checked={isRead}
-                                        onChange={this.changeIsRead} />
+                                    <input type="checkbox" className='form-check-input'
+                                            checked={isRead}
+                                            onChange={this.changeIsRead} />
+                                    <span className="form-group-text">Is Read</span>                     
                                 </div>
 
                                 {id === 0 ?

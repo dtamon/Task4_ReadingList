@@ -1,9 +1,12 @@
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
 using Task4_ReadingList.DataAccess.Context;
 using Task4_ReadingList.DataAccess.Repositories.AuthorRepository;
 using Task4_ReadingList.DataAccess.Repositories.BookRepository;
 using Task4_ReadingList.Service.Services.AuthorService;
 using Task4_ReadingList.Service.Services.BookService;
+using Task4_ReadingList.Service.Validators;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -31,7 +34,12 @@ builder.Services.AddScoped<IBookService, BookService>();
 builder.Services.AddScoped<IAuthorService, AuthorService>();
 
 
-//Validators
+//FluentValidation Validators
+builder.Services.AddFluentValidationAutoValidation(config =>
+{
+    config.DisableDataAnnotationsValidation = true;
+})
+    .AddValidatorsFromAssemblyContaining<AuthorValidator>();
 
 var app = builder.Build();
 

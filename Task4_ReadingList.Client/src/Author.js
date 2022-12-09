@@ -11,7 +11,9 @@ export class Author extends Component {
             lastName: "",
             id: 0,
 
-            idFilter: "",
+            firstNameError: "",
+            lastNameError: "",
+
             firstNameFilter: "",
             lastNameFilter: "",
             authorsWithoutFilter: [],
@@ -31,16 +33,12 @@ export class Author extends Component {
     }
 
     FilterFn() {
-        var idFilter = this.state.idFilter;
         var firstNameFilter = this.state.firstNameFilter;
         var lastNameFilter = this.state.lastNameFilter;
 
         var filteredData = this.state.authorsWithoutFilter.filter(
             function (el) {
-                return el.id.toString().toLowerCase().includes(
-                    idFilter.toString().trim().toLowerCase()
-                ) && 
-                el.firstName.toString().toLowerCase().includes(
+                return el.firstName.toString().toLowerCase().includes(
                 firstNameFilter.toString().trim().toLowerCase()
                 ) &&
                 el.lastName.toString().toLowerCase().includes(
@@ -62,10 +60,6 @@ export class Author extends Component {
         this.setState({ authors: sortedData });
     }
 
-    changeIdFilter = (e) => {
-        this.state.idFilter = e.target.value;
-        this.FilterFn();
-    }
     changeFirstNameFilter = (e) => {
         this.state.firstNameFilter = e.target.value;
         this.FilterFn();
@@ -87,7 +81,9 @@ export class Author extends Component {
             modalTitle: "Add Author",
             id: 0,
             firstName: "",
-            lastName: ""
+            lastName: "",
+            firstNameError: "",
+            lastNameError: ""
         });
     }
     editClick(author){
@@ -95,7 +91,9 @@ export class Author extends Component {
             modalTitle: "Edit Author",
             id: author.id,
             firstName: author.firstName,
-            lastName: author.lastName 
+            lastName: author.lastName,
+            firstNameError: "",
+            lastNameError: ""
         });
     }
 
@@ -113,11 +111,12 @@ export class Author extends Component {
         })
             .then(res => res.json())
             .then((result) => {
-                alert(result);
                 this.refreshList();
+                this.setState({ firstNameError: result.errors.FirstName[0], lastNameError: result.errors.LastName[0] })
             }, (error) => {
                 alert('Failed');
             })
+            // this.setState({ firstNameError: "", lastNameError: "Updated Succesfully" })
     }
     updateClick() {
         fetch('author/' + this.state.id, {
@@ -134,11 +133,12 @@ export class Author extends Component {
         })
             .then(res => res.json())
             .then((result) => {
-                alert(result);
                 this.refreshList();
+                this.setState({ firstNameError: result.errors.FirstName[0], lastNameError: result.errors.LastName[0] })
             }, (error) => {
                 alert('Failed');
             })
+            // this.setState({ firstNameError: "", lastNameError: "Updated Succesfully" })
     }
     deleteClick(id) {
         if (window.confirm('Are you sure?')) {
@@ -155,7 +155,6 @@ export class Author extends Component {
                     this.refreshList();
                 }, (error) => {
                     alert('Failed');
-                    this.refreshList();
                 })
         }
     }
@@ -166,7 +165,9 @@ export class Author extends Component {
             modalTitle,
             id,
             firstName,
-            lastName
+            lastName,
+            firstNameError,
+            lastNameError,
         } = this.state;
         return (
             <div>
@@ -183,10 +184,6 @@ export class Author extends Component {
                         <tr>
                             <th>
                                 <div className="d-flex flex-row">
-                                    <input className="form-control m-2"
-                                        onChange={this.changeIdFilter}
-                                        placeholder="Filter" />
-
                                     <button type="button" className="btn btn-light"
                                         onClick={() => this.sortResult('id', true)}>
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-arrow-down-square-fill" viewBox="0 0 16 16">
@@ -296,19 +293,21 @@ export class Author extends Component {
                             </div>
 
                             <div className="modal-body">
-                                <div className="input-group mb-3">
+                                <div className="input-group mb-1">
                                     <span className="input-group-text">First Name</span>
                                     <input type="text" className="form-control"
                                         value={firstName}
                                         onChange={this.changeAuthorFirstName} />
                                 </div>
+                                <span className="input-group mb-3 text-danger">{firstNameError}</span>
 
-                                <div className="input-group mb-3">
+                                <div className="input-group mb-1">
                                     <span className="input-group-text">Last Name</span>
                                     <input type="text" className="form-control"
                                         value={lastName}
                                         onChange={this.changeAuthorLastName} />
                                 </div>
+                                <span className="input-group mb-3 text-danger">{lastNameError}</span>
 
                                 {id === 0 ?
                                     <button type="button"
