@@ -9,10 +9,16 @@ App allowing the user to keep a list of books planned to read, the order in whic
 - Books that are marked as read should contain null value in field `Position`, newly added books to the list have Position = 0, you can drag them to the desired position and click `Save Order` to update the `Position` values. Books that are added as Already Read will be automatically updatet to Position = null on `Save Order` click
 
 ## Configuration
-- The Database is hosted on [freeasphosting.net](https://freeasphosting.net/) so there is no need to generate the schema on the local server. It should contain some sample records by default. It may take a few seconds to load data after starting the project
-- In case of problems with database, change your connection string in [appsettings.json](https://github.com/dtamon/Task4_ReadingList/blob/master/Task4_ReadingList.API/appsettings.json) and fill database with sample data using [SampleBooks.sql](https://github.com/dtamon/Task4_ReadingList/blob/master/SampleBooks.sql) script
-- The way I run the project is to open whole solution in Visual Studio and run `Task4_ReadingList.API` project there, open `Task4_ReadingList.Client` frontend project in Visual Studio Code and start it with command `npm start` from terminal
-- Before the first launch it may be required to install react libraries (`react`, `react-icons`, `react-beautiful-dnd` and `react-router-dom`) by running commands `npm i <name_of_library>` in terminal
+#### 1. The Database is hosted on [freeasphosting.net](https://freeasphosting.net/) so there is no need to generate the schema on the local server. It should contain some sample records by default. It may take a few seconds to load data after starting the project
+#### 1a. In case of problems with database, change your connection string in [appsettings.json](https://github.com/dtamon/Task4_ReadingList/blob/master/Task4_ReadingList.API/appsettings.json),
+````json 
+"ConnectionStrings": {
+    "connection": "Data Source=sql.bsite.net\\MSSQL2016;Initial Catalog=dtamon_Task4;User ID=dtamon_Task4;Password=task4;Persist Security Info=True;Encrypt=False;"
+  }, 
+````    
+#### 2a. generate schema by running `update-database` command in Package Manager Console (make sure you've picked `Task4_ReadingList.DataAccess` as default project) ![PMC](https://i.imgur.com/PfmyK8M.png) and fill database with sample data using [SampleBooks.sql](https://github.com/dtamon/Task4_ReadingList/blob/master/SampleBooks.sql) script
+#### 3. The way I run the project is to open whole solution in Visual Studio and run `Task4_ReadingList.API` project there, open `Task4_ReadingList.Client` frontend project in Visual Studio Code and start it with command `npm start` from terminal
+#### 4. Before the first launch it may be required to install react libraries (`react`, `react-icons`, `react-beautiful-dnd` and `react-router-dom`) by running commands `npm i <name_of_library>` in terminal
 
 
 
