@@ -16,10 +16,10 @@ App allowing the user to keep a list of books planned to read, the order in whic
     "connection": "Data Source=sql.bsite.net\\MSSQL2016;Initial Catalog=dtamon_Task4;User ID=dtamon_Task4;Password=task4;Persist Security Info=True;Encrypt=False;"
   }, 
 ````    
-#### 2a. generate schema by running `update-database` command in Package Manager Console (make sure you've picked `Task4_ReadingList.DataAccess` as default project) ![PMC](https://i.imgur.com/PfmyK8M.png) 
+#### generate schema by running `update-database` command in Package Manager Console (make sure you've picked `Task4_ReadingList.DataAccess` as default project) ![PMC](https://i.imgur.com/PfmyK8M.png) 
 #### and fill database with sample data using [SampleBooks.sql](https://github.com/dtamon/Task4_ReadingList/blob/master/SampleBooks.sql) script
-#### 3. The way I run the project is to open whole solution in Visual Studio and run `Task4_ReadingList.API` project there, open `Task4_ReadingList.Client` frontend project in Visual Studio Code and start it with command `npm start` from terminal
-#### 4. Before the first launch it may be required to install react libraries (`react`, `react-icons`, `react-beautiful-dnd` and `react-router-dom`) by running commands `npm i <name_of_library>` in terminal
+#### 2. The way I run the project is to open whole solution in Visual Studio and run `Task4_ReadingList.API` project there, open `Task4_ReadingList.Client` frontend project in Visual Studio Code and start it with command `npm start` from terminal
+#### 3. Before the first launch it may be required to install react libraries (`react`, `react-icons`, `react-beautiful-dnd` and `react-router-dom`) by running commands `npm i <name_of_library>` in terminal
 
 
 
