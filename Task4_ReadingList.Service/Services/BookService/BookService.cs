@@ -63,7 +63,11 @@ namespace Task4_ReadingList.Service.Services.BookService
                         _bookRepository.UpdateBook(_mapper.Map<Book>(book));
                     } 
                     i++;
-                }   
+                } else
+                {
+                    book.Position = null;
+                    _bookRepository.UpdateBook(_mapper.Map<Book>(book));
+                }  
             }
         }
     }

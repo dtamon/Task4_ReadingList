@@ -256,19 +256,19 @@ export class Book extends Component {
                                 <th></th>
                                 <th>
                                     <div className="d-flex flex-row">
-                                    <button type="button" className="btn btn-light"
-                                            onClick={() => this.sortResult('position', true)}>
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-arrow-down-square-fill" viewBox="0 0 16 16">
-                                                <path d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm6.5 4.5v5.793l2.146-2.147a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 1 1 .708-.708L7.5 10.293V4.5a.5.5 0 0 1 1 0z" />
-                                            </svg>
-                                        </button>
-
                                         <button type="button" className="btn btn-light"
-                                            onClick={() => this.sortResult('position', false)}>
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-arrow-up-square-fill" viewBox="0 0 16 16">
-                                                <path d="M2 16a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2zm6.5-4.5V5.707l2.146 2.147a.5.5 0 0 0 .708-.708l-3-3a.5.5 0 0 0-.708 0l-3 3a.5.5 0 1 0 .708.708L7.5 5.707V11.5a.5.5 0 0 0 1 0z" />
-                                            </svg>
-                                        </button>
+                                                onClick={() => this.sortResult('position', true)}>
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-arrow-down-square-fill" viewBox="0 0 16 16">
+                                                    <path d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm6.5 4.5v5.793l2.146-2.147a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 1 1 .708-.708L7.5 10.293V4.5a.5.5 0 0 1 1 0z" />
+                                                </svg>
+                                            </button>
+
+                                            <button type="button" className="btn btn-light"
+                                                onClick={() => this.sortResult('position', false)}>
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-arrow-up-square-fill" viewBox="0 0 16 16">
+                                                    <path d="M2 16a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2zm6.5-4.5V5.707l2.146 2.147a.5.5 0 0 0 .708-.708l-3-3a.5.5 0 0 0-.708 0l-3 3a.5.5 0 1 0 .708.708L7.5 5.707V11.5a.5.5 0 0 0 1 0z" />
+                                                </svg>
+                                            </button>
                                     </div>
                                     Position
                                 </th>
@@ -321,9 +321,9 @@ export class Book extends Component {
                                 <div className="d-flex flex-row">
                                     <select className="form-select m-2"
                                             onChange={this.changeIsReadFilter}>
+                                                <option value="">All</option>
                                                 <option value="false">To Read</option>
-                                                <option value="true">Already Read</option>
-                                                <option value="" selected>All</option>
+                                                <option value="true">Already Read</option>  
                                     </select>
                                 </div>
                                     Options
@@ -409,10 +409,14 @@ export class Book extends Component {
                                 <span className="input-group mb-3 text-danger">{authorError}</span>
 
                                 <div className="input-group mb-3">
-                                    <input type="checkbox" className='form-check-input'
-                                            checked={isRead}
-                                            onChange={this.changeIsRead} />
-                                    <span className="form-group-text">Is Read</span>                     
+                                    <span className="input-group-text">Is Read</span>
+                                    <div className='form-control'>
+                                        <input type="checkbox" className='form-check-input float-start'
+                                                checked={isRead}
+                                                onChange={this.changeIsRead} />
+                                    </div>
+                                    
+                                                         
                                 </div>
 
                                 {id === 0 ?
