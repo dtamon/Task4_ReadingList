@@ -98,6 +98,7 @@ export class Author extends Component {
     }
 
     createClick() {
+        this.setState({ firstNameError: "", lastNameError: ""})
         fetch('author', {
             method: 'POST',
             headers: {
@@ -112,13 +113,16 @@ export class Author extends Component {
             .then(res => res.json())
             .then((result) => {
                 this.refreshList();
-                this.setState({ firstNameError: result.errors.FirstName[0], lastNameError: result.errors.LastName[0] })
+                result.errors !== undefined ? 
+                    this.setState({ firstNameError: result.errors.FirstName !== undefined ? result.errors.FirstName[0] : "",
+                                 lastNameError: result.errors.LastName !== undefined ? result.errors.LastName[0] : ""})
+                                 : alert(result)
             }, (error) => {
                 alert('Failed');
             })
-            // this.setState({ firstNameError: "", lastNameError: "Updated Succesfully" })
     }
     updateClick() {
+        this.setState({ firstNameError: "", lastNameError: ""})
         fetch('author/' + this.state.id, {
             method: 'PUT',
             headers: {
@@ -134,11 +138,13 @@ export class Author extends Component {
             .then(res => res.json())
             .then((result) => {
                 this.refreshList();
-                this.setState({ firstNameError: result.errors.FirstName[0], lastNameError: result.errors.LastName[0] })
+                result.errors !== undefined ? 
+                    this.setState({ firstNameError: result.errors.FirstName !== undefined ? result.errors.FirstName[0] : "",
+                                 lastNameError: result.errors.LastName !== undefined ? result.errors.LastName[0] : ""})
+                                 : alert(result)
             }, (error) => {
                 alert('Failed');
             })
-            // this.setState({ firstNameError: "", lastNameError: "Updated Succesfully" })
     }
     deleteClick(id) {
         if (window.confirm('Are you sure?')) {

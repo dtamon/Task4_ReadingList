@@ -128,6 +128,7 @@ export class Book extends Component {
     }
 
     createClick() {
+        this.setState({ titleError: "", authorError: ""})
         fetch('book', {
             method: 'POST',
             headers: {
@@ -144,13 +145,17 @@ export class Book extends Component {
         })
             .then(res => res.json())
             .then((result) => {
-                this.refreshList();
-                this.setState({ titleError: result.errors.Title[0], authorError: result.errors.AuthorId[0]})
+                this.refreshList()
+                result.errors !== undefined ? 
+                    this.setState({ titleError: result.errors.Title !== undefined ? result.errors.Title[0] : "",
+                                 authorError: result.errors.AuthorId !== undefined ? result.errors.AuthorId[0] : ""})
+                                 : alert(result)
             }, (error) => {
                 alert('Failed');
-            })
+            })   
     }
     updateClick() {
+        this.setState({ titleError: "", authorError: ""})
         fetch('book/' + this.state.id, {
             method: 'PUT',
             headers: {
@@ -169,8 +174,10 @@ export class Book extends Component {
             .then(res => res.json())
             .then((result) => {
                 this.refreshList();
-                this.filterData();
-                this.setState({ titleError: result.errors.Title[0], authorError: result.errors.AuthorId[0]})
+                result.errors !== undefined ? 
+                    this.setState({ titleError: result.errors.Title !== undefined ? result.errors.Title[0] : "",
+                                 authorError: result.errors.AuthorId !== undefined ? result.errors.AuthorId[0] : ""})
+                                 : alert(result)
             }, (error) => {
                 alert('Failed');
             })
