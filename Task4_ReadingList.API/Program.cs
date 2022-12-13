@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Task4_ReadingList.DataAccess.Context;
 using Task4_ReadingList.DataAccess.Repositories.AuthorRepository;
 using Task4_ReadingList.DataAccess.Repositories.BookRepository;
+using Task4_ReadingList.DataAccess.Seeder;
 using Task4_ReadingList.Service.Services.AuthorService;
 using Task4_ReadingList.Service.Services.BookService;
 using Task4_ReadingList.Service.Validators;
@@ -33,6 +34,8 @@ builder.Services.AddScoped<IAuthorRepository, AuthorRepository>();
 builder.Services.AddScoped<IBookService, BookService>();
 builder.Services.AddScoped<IAuthorService, AuthorService>();
 
+//Seeder
+builder.Services.AddScoped<ReadingListSeeder>();
 
 //FluentValidation Validators
 builder.Services.AddFluentValidationAutoValidation(config =>
@@ -42,6 +45,9 @@ builder.Services.AddFluentValidationAutoValidation(config =>
     .AddValidatorsFromAssemblyContaining<AuthorValidator>();
 
 var app = builder.Build();
+
+//Seed data
+app.Services.CreateScope().ServiceProvider.GetRequiredService<ReadingListSeeder>().Seed();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
