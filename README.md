@@ -13,7 +13,7 @@ App allowing the user to keep a list of books planned to read, the order in whic
 #### 1a. In case of problems with database, change your connection string in [appsettings.json](https://github.com/dtamon/Task4_ReadingList/blob/master/Task4_ReadingList.API/appsettings.json),
 ````json 
 "ConnectionStrings": {
-    "connection": "Data Source=sql.bsite.net\\MSSQL2016;Initial Catalog=dtamon_Task4;User ID=dtamon_Task4;Password=task4;Persist Security Info=True;Encrypt=False;"
+    "connection": "your connection string"
   }, 
 ````    
 #### generate schema by running `update-database` command in Package Manager Console (make sure you've picked `Task4_ReadingList.DataAccess` as default project) ![PMC](https://i.imgur.com/PfmyK8M.png) 
